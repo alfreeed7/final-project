@@ -1,0 +1,27 @@
+h1
+{
+    text-align: center;
+}
+
+svg
+{left:10%;}
+
+.button1
+{
+    position: absolute;
+    left:200px;
+}
+
+.button2
+{
+    position: absolute;
+    left:500px;
+}
+
+
+.button3
+{
+    position: absolute;
+    left:1000px;
+}
+
