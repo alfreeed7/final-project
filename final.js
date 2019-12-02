@@ -21,9 +21,9 @@ Promise.all([mappromise, datapromise])
          {
            feature.properties.economicdata = getdata[feature.properties.iso_a3];
          })
-button1(all)
+    button1(all)
     button2(all)
-
+    button3(all)
 })
 
 var drawmap=function(all) 
@@ -98,7 +98,7 @@ var color = d3.scaleQuantize()
 
 var drawmap2=function(all) 
 {
-var screen = {width: 1500, height:1000}
+var screen = {width: 1000, height:600}
 
  var projection = d3.geoEqualEarth()
                      .translate([screen.width/2, screen.height/2])
@@ -132,7 +132,7 @@ return "#ccc";
 })
 
     var colorSet2 = ["#edf8fb", "#ccece6", "#99d8c9", "#66c2a4", "#2ca25f","#006d2c","#ccc"];
-  var description2 = ["<0.5","0.5-1","1-1.5","1.5-2", "2-2.5", ">2.5","Undefined"];  
+  var description2 = ["<0.2","0.2-0.4","0.4-0.6","0.6-0.8", "0.8-1", ">1","Undefined"];  
           
     var legend = svg.append("g")
                   .attr("class", "legend")
@@ -163,7 +163,7 @@ return "#ccc";
 var color2 = d3.scaleQuantize()
 .range(["#edf8fb", "#ccece6",
 "#99d8c9", "#66c2a4", "#2ca25f","#006d2c"])
-.domain([0,3])
+.domain([0,1.2])
 
 
 var button1=function(all)
@@ -185,61 +185,112 @@ var button2=function(all)
 .on("click",function()
    {removethings(),drawmap2(all)})}
 
-var button3=
+var button3=function(all)
+{
         d3.select("body")
 .append("button")
 .attr("class","button3")
 .text("Findings Based on Comparing Two Maps and the Misconception ")
 .on("click",function()
-   {removethings(),findings()})
+   {removethings(),findings(all)})
+}
 
 var removethings=function()
-{d3.selectAll("svg").remove();}
+{d3.selectAll("svg").remove();
+d3.selectAll(".compare").remove()}
 
-var findings=function()
+var findings=function(all)
 {
-    var svg = d3.select("body")
-              .append("svg")
-              .attr("width", screen.width)
-              .attr("height", screen.height)
-     
-          var compare = svg.append("g")
+  d3.select("body")
+              .append("div")
                   .attr("class", "compare")
           
-       var addli= compare.selectAll("ol")
-.append("ol")
-            .attr("x", 120)
-        .attr("y", 120)
 
-       addli.append("li")
-    .text("hi")
+   addli= d3.select(".compare")
+    .append("ol")
+
+    addli.append("li")
+    .text("The richer countries might not have a higher return on investing in capital.")
     
-//No order list    
+    addli.append("li")
+    .text("Countries with higher return(1% increase in investing capital will bring a >1% growth in real GDP per capita) on investing in capital are mostly not developed countries.")
     
-    
-//    
-//    .append("g")
-//    .append("ol")
-//        .attr("x", 120)
-//        .attr("y", 120)
-//    .attr("class","explain")
-//
-//svg.append("li")
-//    .text("hello")
-//            .attr("font-size", 15)
-//        .attr("font-style", "italic")
-//        .attr("font-weight", "bold");
-//
-//
-//    
-//svg.append("li")
-//    .text("hi")
-//
-//    svg.append("li")
-//    .text("ok")
-
-
-
-
-
+        d3.select(".compare")
+    .append("button")
+    .attr("class","button4")
+    .text("Misconception")
+    .on("click",function()
+       {drawmis(all)})
+   
 }
+
+//misconception
+
+
+var drawmis=function(all)
+{
+    var screen2 = {width:1400,height:800}
+var margins={top:10,right:50,bottom:50,left:50}
+
+d3.select("body")
+              .append("svg")
+              .attr("class","svg2")
+              .attr("width", screen2.width)
+              .attr("height", screen2.height);
+    
+    
+    d3.select(".svg2")
+    .append("g")
+    .attr("id","graph")
+    .attr("transform","translate("+margins.left+","+margins.top+")");
+    
+    var width=screen.width-margins.left-margins.right
+    var height=screen.height-margins.top-margins.bottom
+    
+    var xScale=d3.scaleLinear()
+    .domain([0,600000])
+    .range([0,width])
+    
+    var yScale=d3.scaleLinear()
+    .domain([0,140000])
+    .range([height,0])
+    
+        var cScale=d3.scaleOrdinal
+    
+    var xAxis=d3.axisBottom(xScale)
+    var yAxis=d3.axisLeft(yScale)
+    
+        d3.select(".svg2")
+    .append("g")
+    .classed("axis",true);
+    
+    d3.select(".axis")
+    .append("g")
+    .attr("id","xAxis")
+    .attr("transform","translate("+margins.left+","+(margins.top+height)+")")
+    .call(xAxis)
+    
+        d3.select(".axis")
+    .append("g")
+    .attr("id","yAxis")
+    .attr("transform","translate(50,"+margins.top+")")
+    .call(yAxis)
+    
+    d3.select("#graph")
+    .selectAll("circle")
+    .data(all.features)
+    .enter()
+    .append("circle")
+       .attr("fill","red")
+    .attr("r",7)
+    .attr("cx",function(d)
+    {
+      return xScale(d.properties.economicdata.capitalpercapita17);
+    })
+    .attr("cy",function(d)
+    {
+      return yScale(d.properties.economicdata.rgdppercapita17);
+    })
+}
+
+
