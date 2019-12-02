@@ -98,7 +98,7 @@ var color = d3.scaleQuantize()
 
 var drawmap2=function(all) 
 {
-var screen = {width: 1000, height:600}
+var screen = {width: 1500, height:1000}
 
  var projection = d3.geoEqualEarth()
                      .translate([screen.width/2, screen.height/2])
@@ -229,7 +229,7 @@ var findings=function(all)
 
 var drawmis=function(all)
 {
-    var screen2 = {width:1400,height:800}
+    var screen2 = {width:800,height:500}
 var margins={top:10,right:50,bottom:50,left:50}
 
 d3.select("body")
@@ -244,15 +244,15 @@ d3.select("body")
     .attr("id","graph")
     .attr("transform","translate("+margins.left+","+margins.top+")");
     
-    var width=screen.width-margins.left-margins.right
-    var height=screen.height-margins.top-margins.bottom
+    var width=screen2.width-margins.left-margins.right
+    var height=screen2.height-margins.top-margins.bottom
     
     var xScale=d3.scaleLinear()
-    .domain([0,600000])
+    .domain([0,400000])
     .range([0,width])
     
     var yScale=d3.scaleLinear()
-    .domain([0,140000])
+    .domain([0,90000])
     .range([height,0])
     
         var cScale=d3.scaleOrdinal
@@ -291,6 +291,97 @@ d3.select("body")
     {
       return yScale(d.properties.economicdata.rgdppercapita17);
     })
+    
+    d3.select(".compare")
+    .append("p")
+    .attr("class","mis")
+    .text("The misconception mainly comes from this graph. The x-axis is capital per capita and  the y-axis is real GDP per capita. Which being said, this graph can display a relationship between those two. So, it is easy for people to conclude that increasing capital can help the economy grow. However, this conclusion elminate many other facts.")
+    
+    d3.select(".compare")
+    .append("button")
+    .attr("class","button5")
+    .text("0~33% Richest Countries")
+        .on("click",function()
+       {setup(all)})
+    
+        d3.select(".compare")
+    .append("button")
+    .attr("class","button6")
+    .text("33%~66.7% Richest Countries")
+    
+        d3.select(".compare")
+    .append("button")
+    .attr("class","button7")
+    .text("66.7%~top Richest Countries")
 }
 
+var setup=function(all)
+{
+        var screen3 = {width:600,height:400}
+var margins={top:10,right:50,bottom:50,left:50}
+
+d3.select("body")
+              .append("svg")
+              .attr("class","svg3")
+              .attr("width", screen3.width)
+              .attr("height", screen3.height);
+    
+     d3.select(".svg3")
+    .append("g")
+    .attr("id","graph2")
+    .attr("transform","translate("+margins.left+","+margins.top+")");
+    
+    var width3=screen3.width-margins.left-margins.right
+    var height3=screen3.height-margins.top-margins.bottom
+    
+    var xScale3=d3.scaleLinear()
+    .domain([-0.02,0.02])
+    .range([0,width3])
+    
+    var yScale3=d3.scaleLinear()
+    .domain([-0.02,0.02])
+    .range([height3,0])
+    
+        var cScale3=d3.scaleOrdinal
+        
+       var formatter = d3.format(".0%");
+    
+    var xAxis3=d3.axisBottom(xScale3)
+    .tickFormat(formatter)
+    
+    var yAxis3=d3.axisLeft(yScale3)
+    .tickFormat(formatter)
+    
+        d3.select(".svg3")
+    .append("g")
+    .classed("axis3",true);
+    
+    d3.select(".axis3")
+    .append("g")
+    .attr("id","xAxis3")
+    .attr("transform","translate("+margins.left+","+(margins.top+height3)+")")
+    .call(xAxis3)
+    
+        d3.select(".axis3")
+    .append("g")
+    .attr("id","yAxis3")
+    .attr("transform","translate(300,180)")
+    .call(yAxis3)
+    
+    d3.select("#graph2")
+    .selectAll("circle")
+    .data(all.features)
+    .enter()
+    .append("circle")
+       .attr("fill","red")
+    .attr("r",3)
+    .attr("cx",function(d)
+    {
+      return xScale3(d.properties.economicdata.growthofcapital);
+    })
+    .attr("cy",function(d)
+    {
+      return yScale3(d.properties.economicdata.growthofrgdp);
+    })
+}
 
