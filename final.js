@@ -325,7 +325,7 @@ var setup=function(all)
        d3.select(".compare")
     .append("button")
     .attr("class","button5")
-    .text("0~33% Richest Countries")
+    .text("Top 33% Poorest Countries")
     .on("click",function()
        {
            removethings3(),setup1(all)
@@ -345,7 +345,7 @@ var setup=function(all)
         d3.select(".compare")
     .append("button")
     .attr("class","button7")
-    .text("66.7%~top Richest Countries")
+    .text("Top 33% Richest Countries")
             .on("click",function()
        {
            removethings3(),setup3(all)
@@ -388,11 +388,11 @@ d3.select("body")
     var height3=screen3.height-margins.top-margins.bottom
     
     var xScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.1])
     .range([0,width3])
     
     var yScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.08])
     .range([height3,0])
     
         var cScale3=d3.scaleOrdinal
@@ -412,13 +412,13 @@ d3.select("body")
     d3.select(".axis3")
     .append("g")
     .attr("id","xAxis3")
-    .attr("transform","translate("+margins.left+",305)")
+    .attr("transform","translate("+margins.left+",356)")
     .call(xAxis3)
     
         d3.select(".axis3")
     .append("g")
     .attr("id","yAxis3")
-    .attr("transform","translate(311,0)")
+    .attr("transform","translate(211,0)")
     .call(yAxis3)
     
     d3.select("#graph2")
@@ -428,7 +428,7 @@ d3.select("body")
     .append("circle")
     .filter(function(d){return d.properties.economicdata.rgdppercapita17<7000})
        .attr("fill","red")
-    .attr("r",4)
+    .attr("r",5)
     .attr("cx",function(d)
     {
       return xScale3(d.properties.economicdata.growthofcapital);
@@ -438,12 +438,19 @@ d3.select("body")
       return yScale3(d.properties.economicdata.growthofrgdp);
     })
 
-
+d3.select(".svg3")
+    .append("line")
+    .attr("x1",50)
+    .attr("y1",460)
+    .attr("x2",800)
+    .attr("y2",40)
+    .attr("stroke-width", 3)
+    .attr("stroke", "blue");
     
     d3.select("body")
     .append("p")
     .attr("class","text1")
-    .text("That is the graph showing the relationship between growth in real GDP per capita and the growth in capital per capita for coutries are relativly poor (0~33% richest). The relationship between them is growth in real GDP per capita= -2.86E-03 + 0.556*grwoth in capital per capita. Which being said, if they have to invest in capital to have a growth, and 1% more investment in capital will lead to 0.556% increase in real GDP per capita")
+    .text("That is the graph showing the relationship between growth in real GDP per capita and the growth in capital per capita for coutries are relativly poor (0~33% richest). The relationship between them is growth in real GDP per capita= -2.86E-03 + 0.556*grwoth in capital per capita. Which being said, they have to invest in capital to have a growth or their real GDP per capita will decrease by 0.286%, and 1% more investment in capital will lead to 0.556% increase in real GDP per capita")
  
     
     
@@ -471,11 +478,11 @@ d3.select("body")
     var height3=screen3.height-margins.top-margins.bottom
     
     var xScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.1])
     .range([0,width3])
     
     var yScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.08])
     .range([height3,0])
     
         var cScale3=d3.scaleOrdinal
@@ -492,16 +499,16 @@ d3.select("body")
     .append("g")
     .classed("axis3",true);
     
-    d3.select(".axis3")
+     d3.select(".axis3")
     .append("g")
     .attr("id","xAxis3")
-    .attr("transform","translate("+margins.left+",305)")
+    .attr("transform","translate("+margins.left+",356)")
     .call(xAxis3)
     
         d3.select(".axis3")
     .append("g")
     .attr("id","yAxis3")
-    .attr("transform","translate(311,0)")
+    .attr("transform","translate(211,0)")
     .call(yAxis3)
     
     d3.select("#graph2")
@@ -511,7 +518,7 @@ d3.select("body")
     .append("circle")
     .filter(function(d){return d.properties.economicdata.rgdppercapita17<21200 & d.properties.economicdata.rgdppercapita17>7000 })
        .attr("fill","red")
-    .attr("r",4)
+    .attr("r",5)
     .attr("cx",function(d)
     {
       return xScale3(d.properties.economicdata.growthofcapital);
@@ -521,11 +528,20 @@ d3.select("body")
       return yScale3(d.properties.economicdata.growthofrgdp);
     })
 
+    d3.select(".svg3")
+    .append("line")
+    .attr("x1",50)
+    .attr("y1",400)
+    .attr("x2",800)
+    .attr("y2",130)
+    .attr("stroke-width", 3)
+    .attr("stroke", "blue");
+    
     
     d3.select("body")
     .append("p")
     .attr("class","text1")
-    .text("This the graph for 33%~66.7% richest countries. The relationship changes to growth in real GDP per capita= 4.54E-03 + 0.377*grwoth in capital per capita.The countries in that range do not need to invest in capital to have an economic growth because the intercept is postiive. Moreover, 1% more capital will only increase the real GDP per capital by 0.377%, which is smaller than 0.556 in the previous case")
+    .text("This the graph for 33%~66.7% richest countries. The relationship changes to growth in real GDP per capita= 4.54E-03 + 0.377*grwoth in capital per capita.The countries in that range do not need to invest in capital to have an economic growth because the intercept is postiive which means they can have a 0.454% growth without any growth in the capital per capita. Moreover, 1% more capital will only increase the real GDP per capital by 0.377%, which is smaller than 0.556 in the previous case")
  
 }
 
@@ -549,11 +565,11 @@ d3.select("body")
     var height3=screen3.height-margins.top-margins.bottom
     
     var xScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.1])
     .range([0,width3])
     
     var yScale3=d3.scaleLinear()
-    .domain([-0.03,0.05])
+    .domain([-0.03,0.08])
     .range([height3,0])
     
         var cScale3=d3.scaleOrdinal
@@ -573,13 +589,13 @@ d3.select("body")
     d3.select(".axis3")
     .append("g")
     .attr("id","xAxis3")
-    .attr("transform","translate("+margins.left+",305)")
+    .attr("transform","translate("+margins.left+",356)")
     .call(xAxis3)
     
         d3.select(".axis3")
     .append("g")
     .attr("id","yAxis3")
-    .attr("transform","translate(311,0)")
+    .attr("transform","translate(211,0)")
     .call(yAxis3)
     
     d3.select("#graph2")
@@ -589,7 +605,7 @@ d3.select("body")
     .append("circle")
     .filter(function(d){return d.properties.economicdata.rgdppercapita17>21200})
        .attr("fill","red")
-    .attr("r",4)
+    .attr("r",5)
     .attr("cx",function(d)
     {
       return xScale3(d.properties.economicdata.growthofcapital);
@@ -598,12 +614,20 @@ d3.select("body")
     {
       return yScale3(d.properties.economicdata.growthofrgdp);
     })
-
+    
+    d3.select(".svg3")
+    .append("line")
+    .attr("x1",50)
+    .attr("y1",330)
+    .attr("x2",800)
+    .attr("y2",130)
+    .attr("stroke-width", 3)
+    .attr("stroke", "blue");
     
     d3.select("body")
     .append("p")
     .attr("class","text1")
-    .text("This the graph for 66.7% to most richest countries. The relationship changes to growth in real GDP per capita= 0.0158 + 0.181*grwoth in capital per capita. Countries in that range do not really rely on more investment in capital to boost the growth. Without any investment in capital, they can still have a 0.0158% growth, and 1% more capital will only increase the real GDP per capital by 0.181%, which is really small compared to previous cases")
+    .text("This the graph for top 33% most richest countries. The relationship changes to growth in real GDP per capita= 0.0158 + 0.181*grwoth in capital per capita. Countries in that range do not really rely on more investment in capital to boost the growth. Without any investment in capital, they still have a 1.58% growth, and 1% more capital will only increase the real GDP per capital by 0.181%, which is really small compared to previous cases")
 }
 
 var setup4=function()
@@ -611,5 +635,5 @@ var setup4=function()
      d3.select("body")
     .append("p")
     .attr("class","conclusion")
-    .text("Based on the different relationships between the growth in real GDP per capita and the grwoth in capital per capita, we can see that investment in capital becomes less and less important when the countries become richer. First of all, richer countries do not even have to invest more capital to have a positive economic growth. Secondly, the richer the country is, the less influential the investment in capital is. For the pooriest countries to the richest countries, the change in the growth in real GDP per capita caused by 1% increase in capital per capita decrease from 0.556% to 0.181%. Of course, it is always true to say that investing capital can help to grow the economy, but it is not true to say that it is important for every country, because obviously, it is not that important for richer countries.")
+    .text("Based on the different relationships between the growth in real GDP per capita and the grwoth in capital per capita, we can see that investment in capital becomes less and less important when the countries become richer. First of all, richer countries do not even have to invest more capital to have a positive economic growth as the intercept changes from -0.286% to 0.454% to 1.58%. Secondly, the richer the country is, the less influential the investment in capital is. For the pooriest countries to the richest countries, the change in the growth in real GDP per capita caused by 1% increase in capital per capita decrease from 0.556% to 0.181%. Of course, it is always true to say that investing capital can help to grow the economy, but it is not true to say that it is important for every country, because obviously, it is not that important for richer countries, who will not have much return from investing in capital.")
 }
