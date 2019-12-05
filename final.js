@@ -27,8 +27,29 @@ Promise.all([mappromise, datapromise])
 
 })
 
+
+    
+
 var drawmap=function(all) 
 {
+    
+        d3.select("body")
+.append("div")
+    .attr("class","tooltip")
+
+    d3.select(".tooltip")
+    .append("div")
+    .attr("id","tooltip1")
+    
+     d3.select(".tooltip")
+    .append("div")
+    .attr("id","tooltip2")
+    
+    d3.select(".tooltip")
+    .append("div")
+    .attr("id","tooltip3")
+    
+    
 var screen = {width: 1500, height:1000}
 
  var projection = d3.geoEqualEarth()
@@ -47,8 +68,48 @@ var path=d3.geoPath(projection)
     .data(all.features)
     .enter()
     .append("path")
+        .on("mouseover",function(d)
+       {
+        
+          d3.select("#tooltip1")
+        .text("Country:   "+d.properties.sovereignt)
+        .style("left",(d3.event.pageX+18)+"px")
+        .style("top",(d3.event.pageY-0)+"px")
+        .classed("hidden",false)
+        
+        
+        d3.select("#tooltip2")
+        .text("Real GDP per Capita:   "+d.properties.economicdata.rgdppercapita17)
+        .style("left",(d3.event.pageX+18)+"px")
+        .style("top",(d3.event.pageY+18)+"px")
+        .classed("hidden",false)
+        
+                d3.select("#tooltip3")
+        .text("Capital per Capita:   "+d.properties.economicdata.capitalpercapita17)
+        .style("left",(d3.event.pageX+18)+"px")
+        .style("top",(d3.event.pageY+36)+"px")
+        .classed("hidden",false)
+    })
+    .on("mouseout",function()
+       {
+        d3.select("#tooltip1")
+          .classed("hidden",true)
+        
+                d3.select("#tooltip2")
+          .classed("hidden",true)
+        
+                        d3.select("#tooltip3")
+          .classed("hidden",true)
+        })
+
     .attr("d",path)
     .style("fill","white")
+    
+    //tooltip
+    
+
+    
+    
 }
 
 var button1=function(all)
@@ -88,6 +149,8 @@ d3.select(".compare")
    .transition()
         .duration(1000)
    .attr("stroke", "#000000") 
+        
+        
     .style("fill", function(d) {
 
 var value = d.properties.economicdata.rgdppercapita17;
@@ -100,6 +163,8 @@ return color(value);
 return "#ccc";
 }   
 })
+        
+        //tooltip
 
         
     drawlegend()
@@ -160,8 +225,8 @@ var button2=function(all)
                 d3.selectAll("p")
         .remove()      
         
-//          d3.select(".svg1")
-//        .remove()
+          d3.select(".svg1")
+        .remove()
         
         d3.select(".svg2")
         .remove()
@@ -175,7 +240,25 @@ var button2=function(all)
 d3.select(".compare")
         .remove()
         
-    //        drawmap(all)
+            drawmap(all)
+        
+               d3.selectAll("path")
+   .attr("stroke", "#000000")
+        
+        
+    .style("fill", function(d) {
+
+var value = d.properties.economicdata.rgdppercapita17;
+if (value) 
+{
+return color(value);
+} 
+        else 
+        {
+return "#ccc";
+}   
+})
+        
         
         
         d3.selectAll("path")
@@ -255,7 +338,9 @@ return "#ccc";
 var removethings=function()
 {d3.selectAll("svg").remove();
 d3.selectAll(".compare").remove();
-d3.selectAll("p").remove()}
+d3.selectAll("p").remove();
+ d3.selectAll(".tooltip").remove()
+}
 
 var findings=function(all)
 {
@@ -272,6 +357,9 @@ var findings=function(all)
     
     addli.append("li")
     .text("Countries with higher return(1% increase in investing capital will bring a >1% growth in real GDP per capita) on investing in capital are mostly not developed countries.")
+    
+    addli.append("li")
+    .text("Does that tell us anything about investing in capital?")
     
         d3.select(".compare")
     .append("button")
@@ -358,7 +446,7 @@ d3.select("body")
     d3.select(".compare")
     .append("button")
     .attr("class", "dbutton")
-    .text("Debug the Misconception")
+    .text("Debunk the Misconception")
     .on("click",function()
        {
         removethings2(),setup(all)

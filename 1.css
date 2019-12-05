@@ -4,7 +4,7 @@ h1
 }
 
 .svg1
-{margin-left:100px;}
+{margin-left:150px;}
 
 .button1
 {
@@ -119,3 +119,18 @@ width:25%;}
     top:250px;
     width:43%;
 }
+
+.hidden
+{
+    display:hidden;
+}
+
+#tooltip1,#tooltip2,#tooltip3
+{
+    position:absolute;
+  background-color: #595163;
+    width:240px;
+    color:white
+    
+}
+
